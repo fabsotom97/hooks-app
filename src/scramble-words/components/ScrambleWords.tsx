@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { SkipForward, Play } from 'lucide-react';
+import confetti from 'canvas-confetti';
 
 const GAME_WORDS = [
     'REACT',
@@ -72,6 +73,11 @@ export const ScrambleWords = () => {
         e.preventDefault();
         if (guess.trim().toLowerCase() === currentWord.trim().toLowerCase()) {
             setPoints((prev) => prev + 1);
+            confetti({
+                particleCount: 100,
+                spread: 120,
+                origin: { y: 0.6 },
+            });
             // after succeed, move onto the next guess word
             loadNextGuessWord();
         } else {
