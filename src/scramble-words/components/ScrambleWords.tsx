@@ -99,6 +99,7 @@ export const ScrambleWords = () => {
         const newShuffle = shuffleArray(GAME_WORDS);
         setWords(newShuffle);
         setCurrentWord(newShuffle[0]);
+        setScrambledWord(scrambleWord(newShuffle[0]));
         setSkipCounter(0);
         setErrorCounter(0);
         setPoints(0);
