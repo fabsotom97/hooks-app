@@ -60,7 +60,7 @@ export const ScrambleWords = () => {
     }, [errorCounter, maxAllowErrors, setIsGameOver]);
 
     const loadNextGuessWord = () => {
-        const remainingWords = words.filter(word => word !== currentWord);
+        const remainingWords = words.slice(1);
         const newCurrentWord = remainingWords[0];
         setWords(remainingWords);
         setCurrentWord(newCurrentWord);
@@ -90,7 +90,9 @@ export const ScrambleWords = () => {
     };
 
     const handlePlayAgain = () => {
-        setWords(shuffleArray(GAME_WORDS));
+        const newShuffle = shuffleArray(GAME_WORDS);
+        setWords(newShuffle);
+        setCurrentWord(newShuffle[0]);
         setSkipCounter(0);
         setErrorCounter(0);
         setPoints(0);
