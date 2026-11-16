@@ -7,7 +7,7 @@ import './index.css'
 //import { TrafficLightWithHooks } from './traffic-light/components/TrafficLightWithHooks';
 //import { PokemonPage } from './pokemon/components/PokemonPage';
 //import { FocusScreen } from './focus-screen/FocusScreen';
-import { TasksApp } from './task/TaskApp';
+import { TasksApp } from './task/components/TaskApp';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
