@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -24,12 +24,10 @@ const GAME_WORDS = [
     'TAILWIND',
 ];
 
-// Esta función mezcla el arreglo para que siempre sea aleatorio
 const shuffleArray = (array: string[]) => {
     return array.sort(() => Math.random() - 0.5);
 };
 
-// Esta función mezcla las letras de la palabra
 const scrambleWord = (word: string = '') => {
     return word
         .split('')
@@ -38,6 +36,7 @@ const scrambleWord = (word: string = '') => {
 };
 
 export const ScrambleWords = () => {
+
     const [words, setWords] = useState(shuffleArray(GAME_WORDS));
 
     const [currentWord, setCurrentWord] = useState(words[0]);
@@ -52,26 +51,52 @@ export const ScrambleWords = () => {
 
     const [isGameOver, setIsGameOver] = useState(false);
 
-    const handleGuessSubmit = (e: React.FormEvent) => {
-        // Previene el refresh de la página
-        e.preventDefault();
-        // Implementar lógica de juego
-        console.log('Intento de adivinanza:', guess, currentWord);
+    const guessInputRef = useRef<HTMLInputElement | null>(null);
 
+    useEffect(() => {
+        setIsGameOver(errorCounter === maxAllowErrors);
+        return () => {
+        }
+    }, [errorCounter, maxAllowErrors, setIsGameOver]);
+
+    const loadNextGuessWord = () => {
+        const remainingWords = words.filter(word => word !== currentWord);
+        const newCurrentWord = remainingWords[0];
+        setWords(remainingWords);
+        setCurrentWord(newCurrentWord);
+        setScrambledWord(scrambleWord(newCurrentWord))
+    }
+
+    const handleGuessSubmit = (e: React.FormEvent) => {
+        // Prevent refresh
+        e.preventDefault();
+        if (guess.trim().toLowerCase() === currentWord.trim().toLowerCase()) {
+            setPoints((prev) => prev + 1);
+            // after succeed, move onto the next guess word
+            loadNextGuessWord();
+        } else {
+            // if it fails, dont change the current guess word
+            setErrorCounter((prev) => prev + 1);
+        }
+        setGuess('');
+        guessInputRef.current?.focus();
     };
 
     const handleSkip = () => {
-        console.log('Palabra saltada');
-
-
+        setSkipCounter((prev) => prev + 1);
+        setGuess('');
+        loadNextGuessWord();
+        guessInputRef.current?.focus();
     };
 
     const handlePlayAgain = () => {
-        console.log('Jugar de nuevo');
-
+        setWords(shuffleArray(GAME_WORDS));
+        setSkipCounter(0);
+        setErrorCounter(0);
+        setPoints(0);
     };
 
-    //! Si ya no hay palabras para jugar, se muestra el mensaje de fin de juego
+    //! If no more words, then shows the game over with the results
     if (words.length === 0) {
 
         return (
@@ -146,6 +171,7 @@ export const ScrambleWords = () => {
                                         Guess the word
                                     </label>
                                     <Input
+                                        ref={guessInputRef}
                                         id="guess"
                                         type="text"
                                         value={guess}
