@@ -78,17 +78,17 @@ export const ScrambleWords = () => {
             <div className="min-h-screen bg-gradient-to-br from-purple-100 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
                 <div className="w-full max-w-md mx-auto">
                     <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
-                        Palabras desordenadas
+                        Scrambled words
                     </h1>
-                    <p className="text-gray-600">No hay palabras para jugar</p>
+                    <p className="text-gray-600">No more words to play</p>
                     <br />
-                    <div>Puntaje: {points}</div>
+                    <div>Score: {points}</div>
                     <br />
-                    <div>Errores: {errorCounter}</div>
+                    <div>Errors: {errorCounter}</div>
                     <br />
-                    <div>Saltos: {skipCounter}</div>
+                    <div>Skips: {skipCounter}</div>
                     <br />
-                    <Button onClick={handlePlayAgain}>Jugar de nuevo</Button>
+                    <Button onClick={handlePlayAgain}>Play again</Button>
                 </div>
             </div>
         );
@@ -100,10 +100,10 @@ export const ScrambleWords = () => {
                 {/* Header */}
                 <div className="text-center mb-8">
                     <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
-                        Palabras desordenadas
+                        Scrambled Words
                     </h1>
                     <p className="text-gray-600">
-                        Desordena las letras para encontrar la palabra!
+                        Unscramble the letters to find the word!
                     </p>
                 </div>
 
@@ -113,7 +113,7 @@ export const ScrambleWords = () => {
                         {/* Scrambled Word Display */}
                         <div className="mb-8">
                             <h2 className="text-center text-sm font-medium text-gray-500 mb-4 uppercase tracking-wide flex items-center justify-center gap-2">
-                                Palabra Desordenada
+                                SCRAMBLED WORD
                                 {isGameOver && (
                                     <span className="text-red-500 text-xl"> {currentWord}</span>
                                 )}
@@ -143,7 +143,7 @@ export const ScrambleWords = () => {
                                         htmlFor="guess"
                                         className="block text-sm font-medium text-gray-700 mb-2"
                                     >
-                                        Adivina la palabra
+                                        Guess the word
                                     </label>
                                     <Input
                                         id="guess"
@@ -152,7 +152,7 @@ export const ScrambleWords = () => {
                                         onChange={(e) =>
                                             setGuess(e.target.value.toUpperCase().trim())
                                         }
-                                        placeholder="Ingresa tu palabra..."
+                                        placeholder="Type your guess"
                                         className="text-center text-lg font-semibold h-12 border-2 border-indigo-200 focus:border-indigo-500 transition-colors"
                                         maxLength={scrambledWord.length}
                                         disabled={isGameOver}
@@ -163,7 +163,7 @@ export const ScrambleWords = () => {
                                     className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200"
                                     disabled={!guess.trim() || isGameOver}
                                 >
-                                    Enviar Adivinanza
+                                    Send guess
                                 </Button>
                             </div>
                         </form>
@@ -174,13 +174,13 @@ export const ScrambleWords = () => {
                                 <div className="text-2xl font-bold text-green-600">
                                     {points} / {GAME_WORDS.length}
                                 </div>
-                                <div className="text-sm text-green-700 font-medium">Puntos</div>
+                                <div className="text-sm text-green-700 font-medium">Score</div>
                             </div>
                             <div className="bg-gradient-to-br from-red-50 to-rose-50 rounded-lg p-4 text-center border border-red-200">
                                 <div className="text-2xl font-bold text-red-600">
                                     {errorCounter}/{maxAllowErrors}
                                 </div>
-                                <div className="text-sm text-red-700 font-medium">Errores</div>
+                                <div className="text-sm text-red-700 font-medium">Errors</div>
                             </div>
                         </div>
 
@@ -193,7 +193,7 @@ export const ScrambleWords = () => {
                                 disabled={isGameOver || skipCounter >= maxSkips}
                             >
                                 <SkipForward className="w-4 h-4" />
-                                Saltar ({skipCounter} / {maxSkips})
+                                Skip ({skipCounter} / {maxSkips})
                             </Button>
                             <Button
                                 onClick={handlePlayAgain}
@@ -201,7 +201,7 @@ export const ScrambleWords = () => {
                                 className="border-2 border-indigo-300 hover:border-indigo-400 hover:bg-indigo-50 text-indigo-600 transition-colors flex items-center justify-center gap-2"
                             >
                                 <Play className="w-4 h-4" />
-                                Jugar de nuevo
+                                Play again
                             </Button>
                         </div>
                     </CardContent>
@@ -210,7 +210,7 @@ export const ScrambleWords = () => {
                 {/* Footer */}
                 <div className="text-center mt-6">
                     <p className="text-sm text-gray-500">
-                        Desafíate con palabras desordenadas!
+                        Scrambled words:
                         <br />
                         <br />
                         {words.join(', ')}
