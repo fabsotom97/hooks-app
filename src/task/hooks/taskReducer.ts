@@ -1,4 +1,6 @@
+import * as z from "zod";
 import type { Todo } from "../interfaces/todo";
+import { TaskStateSchema } from "./task.schemas";
 
 interface TaskState {
     todos: Todo[],
@@ -10,10 +12,21 @@ interface TaskState {
 export type TaskAction =
     | { type: 'ADD_TODO', payload: string }
     | { type: 'TOGGLE_TODO', payload: number }
-    | { type: 'DELETE_TODO', payload: number }
-
+    | { type: 'DELETE_TODO', payload: number };
 
 export const getTasksInitialState = (): TaskState => {
+    // read from localStorage
+    const localStorageState = localStorage.getItem('tasks-state');
+    if (localStorageState) {
+        // run validation in case of manipulated data
+        const result = TaskStateSchema.safeParse(JSON.parse(localStorageState));
+        if (result.error) {
+            console.error(result.error.message);
+        } else {
+            return result.data;
+        }
+    }
+    // default return with empty values
     return {
         todos: [],
         length: 0,
