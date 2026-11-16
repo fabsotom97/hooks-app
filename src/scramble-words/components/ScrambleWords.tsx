@@ -26,7 +26,8 @@ const GAME_WORDS = [
 ];
 
 const shuffleArray = (array: string[]) => {
-    return array.sort(() => Math.random() - 0.5);
+    // creating a copy so that the useEffect reacts as expected
+    return [...array].sort(() => Math.random() - 0.5);
 };
 
 const scrambleWord = (word: string = '') => {
@@ -60,13 +61,13 @@ export const ScrambleWords = () => {
         }
     }, [errorCounter, maxAllowErrors, setIsGameOver]);
 
-    const loadNextGuessWord = () => {
-        const remainingWords = words.slice(1);
-        const newCurrentWord = remainingWords[0];
-        setWords(remainingWords);
-        setCurrentWord(newCurrentWord);
-        setScrambledWord(scrambleWord(newCurrentWord))
-    }
+    useEffect(() => {
+        setCurrentWord(words[0]);
+    }, [words, setWords]);
+
+    useEffect(() => {
+        setScrambledWord(scrambleWord(currentWord));
+    }, [currentWord]);
 
     const handleGuessSubmit = (e: React.FormEvent) => {
         // Prevent refresh
@@ -79,7 +80,7 @@ export const ScrambleWords = () => {
                 origin: { y: 0.6 },
             });
             // after succeed, move onto the next guess word
-            loadNextGuessWord();
+            setWords(words.slice(1));
         } else {
             // if it fails, dont change the current guess word
             setErrorCounter((prev) => prev + 1);
@@ -91,15 +92,12 @@ export const ScrambleWords = () => {
     const handleSkip = () => {
         setSkipCounter((prev) => prev + 1);
         setGuess('');
-        loadNextGuessWord();
+        setWords(words.slice(1));
         guessInputRef.current?.focus();
     };
 
     const handlePlayAgain = () => {
-        const newShuffle = shuffleArray(GAME_WORDS);
-        setWords(newShuffle);
-        setCurrentWord(newShuffle[0]);
-        setScrambledWord(scrambleWord(newShuffle[0]));
+        setWords(shuffleArray(GAME_WORDS));
         setSkipCounter(0);
         setErrorCounter(0);
         setPoints(0);
