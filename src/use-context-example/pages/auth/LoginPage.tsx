@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useContext, useState } from "react";
 import { UserContext } from "@/use-context-example/context/UserContext";
 import { toast } from "sonner";
@@ -9,6 +9,7 @@ export const LoginPage = () => {
 
   const { login } = useContext(UserContext);
   const [userId, setUserId] = useState('');
+  const navigation = useNavigate();
 
   const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -18,6 +19,7 @@ export const LoginPage = () => {
       toast.error('User not found');
       return;
     }
+    navigation('/profile');
   }
 
   return (
