@@ -11,8 +11,9 @@ import { Toaster } from 'sonner';
 // import { TasksApp } from './task/components/TaskApp';
 //import { ScrambleWords } from './scramble-words/components/ScrambleWords';
 // import { InstagromApp } from './instagrom/InstagromApp';
-import { ClientInformation } from './client-information/ClientInformation';
-import { getUserAction } from './client-information/actions/get-user.action';
+// import { ClientInformation } from './client-information/ClientInformation';
+// import { getUserAction } from './client-information/actions/get-user.action';
+import { ContextExampleApp } from './use-context-example/ContextExampleApp';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -26,12 +27,13 @@ createRoot(document.getElementById('root')!).render(
     {/* <TasksApp /> */}
     {/* <ScrambleWords /> */}
     {/* <InstagromApp /> */}
-    <Suspense fallback={
+    {/* <Suspense fallback={
       <div className="bg-gradient flex flex-col">
         <h1 className="text-white text-2xl">Loading user...</h1>
       </div>
     }>
       <ClientInformation getUser={getUserAction(100)} />
-    </Suspense>
+    </Suspense> */}
+    <ContextExampleApp />
   </StrictMode>,
 )
