@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
 import { useContext, useState } from "react";
 import { UserContext } from "@/use-context-example/context/UserContext";
+import { toast } from "sonner";
 
 export const LoginPage = () => {
 
@@ -13,7 +14,10 @@ export const LoginPage = () => {
     event.preventDefault();
     if (userId.trim().length === 0) return;
     const userFound = login(Number.parseInt(userId.trim()));
-    console.log(userFound);
+    if (!userFound) {
+      toast.error('User not found');
+      return;
+    }
   }
 
   return (
